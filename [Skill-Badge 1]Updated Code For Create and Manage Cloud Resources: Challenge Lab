@@ -1,13 +1,17 @@
 TASK -1 FROM VIDEO
 
+gcloud auth list
+
+gcloud config list project
+
 
 TASK 2 - 
 
-gcloud config set compute/zone us-east1-b
+gcloud config set compute/zone us-west4-a
 
-gcloud container clusters create [ANY NAME]
+gcloud container clusters create ayush
 
-gcloud container clusters get-credentials [SAME NAME AS ABOVE ONE]
+gcloud container clusters get-credentials ayush
 
 kubectl create deployment hello-server --image=gcr.io/google-samples/hello-app:2.0
 
@@ -19,13 +23,13 @@ gcloud compute instance-templates create web-server-template \
           --metadata-from-file startup-script=startup.sh \
           --network nucleus-vpc \
           --machine-type g1-small \
-          --region us-east1
+          --region us-west4
           
 gcloud compute instance-groups managed create web-server-group \
           --base-instance-name web-server \
           --size 2 \
           --template web-server-template \
-          --region us-east1
+          --region us-west4
           
           
 gcloud compute firewall-rules create [REPLACE YOUR FIREWALL NAME WHICH IS MENTIONED ON LEFT SIDE] \
@@ -35,7 +39,7 @@ gcloud compute http-health-checks create http-basic-check
 gcloud compute instance-groups managed \
           set-named-ports web-server-group \
           --named-ports http:80 \
-          --region us-east1
+          --region us-west4
           
           
           
@@ -45,7 +49,7 @@ gcloud compute backend-services create web-server-backend \
           --global
 gcloud compute backend-services add-backend web-server-backend \
           --instance-group web-server-group \
-          --instance-group-region us-east1 \
+          --instance-group-region us-west4 \
           --global
           
           
